@@ -36,11 +36,11 @@ public class Network {
     public var scheme: String { return "" }
 
     // version byte
-    var pubkeyhash: UInt8 { return 0 }
-    var privatekey: UInt8 { return 0 }
-    var scripthash: UInt8 { return 0 }
-    var xpubkey: UInt32 { return 0 }
-    var xprivkey: UInt32 { return 0 }
+    public var pubkeyhash: UInt8 { return 0 }
+    public var privatekey: UInt8 { return 0 }
+    public var scripthash: UInt8 { return 0 }
+    public var xpubkey: UInt32 { return 0 }
+    public var xprivkey: UInt32 { return 0 }
 
     var magic: UInt32 { return 0 }
     public var port: UInt32 { return 0 }
@@ -170,19 +170,19 @@ public class Mainnet: Network {
     public override var alias: String {
         return "mainnet"
     }
-    override var pubkeyhash: UInt8 {
+    override public var pubkeyhash: UInt8 {
         return 0x00
     }
-    override var privatekey: UInt8 {
+    override public var privatekey: UInt8 {
         return 0x80
     }
-    override var scripthash: UInt8 {
+    override public var scripthash: UInt8 {
         return 0x05
     }
-    override var xpubkey: UInt32 {
+    override public var xpubkey: UInt32 {
         return 0x0488b21e
     }
-    override var xprivkey: UInt32 {
+    override public var xprivkey: UInt32 {
         return 0x0488ade4
     }
     public override var port: UInt32 {
@@ -231,19 +231,19 @@ public class Testnet: Network {
     public override var alias: String {
         return "regtest"
     }
-    override var pubkeyhash: UInt8 {
+    override public var pubkeyhash: UInt8 {
         return 0x6f
     }
-    override var privatekey: UInt8 {
+    override public var privatekey: UInt8 {
         return 0xef
     }
-    override var scripthash: UInt8 {
+    override public var scripthash: UInt8 {
         return 0xc4
     }
-    override var xpubkey: UInt32 {
+    override public var xpubkey: UInt32 {
         return 0x043587cf
     }
-    override var xprivkey: UInt32 {
+    override public var xprivkey: UInt32 {
         return 0x04358394
     }
     public override var port: UInt32 {
