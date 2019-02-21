@@ -67,7 +67,7 @@ struct Checkpoint {
 
 public class BTCMainnet: Mainnet {
     public override var scheme: String {
-        return "bitcoin"
+        return "bc"
     }
     override var magic: UInt32 {
         return 0xf9beb4d9
@@ -94,7 +94,7 @@ public class BTCMainnet: Mainnet {
 
 public class BTCTestnet: Testnet {
     public override var scheme: String {
-        return "bitcoin"
+        return "tb"
     }
     override var magic: UInt32 {
         return 0x0b110907
