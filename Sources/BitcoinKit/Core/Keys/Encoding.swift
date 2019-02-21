@@ -166,8 +166,9 @@ public struct Bech32 {
 
     public static func encode(_ bytes: Data, prefix: String, seperator: String = ":") -> String {
         let payload = convertTo5bit(data: bytes, pad: true)
-        let checksum: Data = createChecksum(prefix: prefix, payload: payload) // Data of [UInt5]
-        let combined: Data = payload + checksum // Data of [UInt5]
+        
+        let checksum: Data = createChecksum(prefix: prefix, payload: [0x00] + payload) // Data of [UInt5]
+        let combined: Data = [0x00] + payload + checksum // Data of [UInt5]
         var base32 = ""
         for b in combined {
             base32 += String(base32Alphabets[String.Index(encodedOffset: Int(b))])
@@ -221,18 +222,22 @@ public struct Bech32 {
         var ret: Data = Data()
         let buf: [UInt8] = Array(prefix.utf8)
         for b in buf {
-            ret += b & 0x1f
+            ret += b >> 5
         }
         ret += Data(repeating: 0, count: 1)
+        
+        for b in buf {
+            ret += b & 0x1f
+        }
         return ret
     }
 
     private static func createChecksum(prefix: String, payload: Data) -> Data {
-        let enc: Data = expand(prefix) + payload + Data(repeating: 0, count: 8)
+        let enc: Data = expand(prefix) + payload + Data(repeating: 0, count: 6)
         let mod: UInt64 = PolyMod(enc)
         var ret: Data = Data()
-        for i in 0..<8 {
-            ret += UInt8((mod >> (5 * (7 - i))) & 0x1f)
+        for i in 0..<6 {
+            ret += UInt8((mod >> (5 * (5 - i))) & 0x1f)
         }
         return ret
     }
@@ -240,13 +245,13 @@ public struct Bech32 {
     private static func PolyMod(_ data: Data) -> UInt64 {
         var c: UInt64 = 1
         for d in data {
-            let c0: UInt8 = UInt8(c >> 35)
-            c = ((c & 0x07ffffffff) << 5) ^ UInt64(d)
-            if c0 & 0x01 != 0 { c ^= 0x98f2bc8e61 }
-            if c0 & 0x02 != 0 { c ^= 0x79b76d99e2 }
-            if c0 & 0x04 != 0 { c ^= 0xf33e5fb3c4 }
-            if c0 & 0x08 != 0 { c ^= 0xae2eabe2a8 }
-            if c0 & 0x10 != 0 { c ^= 0x1e4f43e470 }
+            let c0: UInt8 = UInt8(c >> 25)
+            c = ((c & 0x1FFFFFF) << 5) ^ UInt64(d)
+            if (c0 >> 0) & 1 == 1 { c ^= 0x3b6a57b2 }
+            if (c0 >> 1) & 1 == 1 { c ^= 0x26508e6d }
+            if (c0 >> 2) & 1 == 1 { c ^= 0x1ea119fa }
+            if (c0 >> 3) & 1 == 1 { c ^= 0x3d4233dd }
+            if (c0 >> 4) & 1 == 1 { c ^= 0x2a1462b3 }
         }
         return c ^ 1
     }
