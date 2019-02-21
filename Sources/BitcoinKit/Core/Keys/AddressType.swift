@@ -28,15 +28,15 @@ public class AddressType {
     public static let pubkeyHash: AddressType = PubkeyHash()
     public static let scriptHash: AddressType = ScriptHash()
 
-    var versionByte: UInt8 { return 0 }
-    var versionByte160: UInt8 { return versionByte + 0 }
-    var versionByte192: UInt8 { return versionByte + 1 }
-    var versionByte224: UInt8 { return versionByte + 2 }
-    var versionByte256: UInt8 { return versionByte + 3 }
-    var versionByte320: UInt8 { return versionByte + 4 }
-    var versionByte384: UInt8 { return versionByte + 5 }
-    var versionByte448: UInt8 { return versionByte + 6 }
-    var versionByte512: UInt8 { return versionByte + 7 }
+    public var versionByte: UInt8 { return 0 }
+    public var versionByte160: UInt8 { return versionByte + 0 }
+    public var versionByte192: UInt8 { return versionByte + 1 }
+    public var versionByte224: UInt8 { return versionByte + 2 }
+    public var versionByte256: UInt8 { return versionByte + 3 }
+    public var versionByte320: UInt8 { return versionByte + 4 }
+    public var versionByte384: UInt8 { return versionByte + 5 }
+    public var versionByte448: UInt8 { return versionByte + 6 }
+    public var versionByte512: UInt8 { return versionByte + 7 }
 }
 
 extension AddressType: Equatable {
